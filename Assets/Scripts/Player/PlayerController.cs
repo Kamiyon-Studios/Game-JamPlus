@@ -21,6 +21,13 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
+
+        GameInputManager.Instance.OnInteractAction += GameInputManager_OnInteractAction;
+    }
+
+    // Event Listeners
+    private void GameInputManager_OnInteractAction(object sender, System.EventArgs e) {
+        Debug.Log("Interact");
     }
 
     private void Update() {
@@ -31,10 +38,12 @@ public class PlayerController : MonoBehaviour {
         HandlePlayerMovement();
     }
 
+    // Get Vector 2 Input from GameInputManager
     private void PlayerInput() {
         movement = GameInputManager.Instance.GetPlayerMovementNormalized();
     }
 
+    // Handle Player movement base from vector 2 input from gameinputmanager
     private void HandlePlayerMovement() {
         if (rb != null) {
             rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
