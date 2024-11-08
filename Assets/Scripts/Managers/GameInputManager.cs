@@ -6,6 +6,8 @@ public class GameInputManager : MonoBehaviour {
 
     public static GameInputManager Instance { get; private set; }
 
+
+
     private PlayerInputActions playerInputActions;
 
     private void Awake() {
