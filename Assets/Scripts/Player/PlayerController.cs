@@ -21,13 +21,6 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-
-        GameInputManager.Instance.OnInteractAction += GameInputManager_OnInteractAction;
-    }
-
-    // Event Listeners
-    private void GameInputManager_OnInteractAction(object sender, System.EventArgs e) {
-        Debug.Log("Interact");
     }
 
     private void Update() {
@@ -35,6 +28,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (DialogueManager.Instance.IsDialoguePlaying()) {
+            return;
+        }
+
         HandlePlayerMovement();
     }
 

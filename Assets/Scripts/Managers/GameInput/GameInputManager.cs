@@ -8,6 +8,7 @@ public class GameInputManager : MonoBehaviour {
     public static GameInputManager Instance { get; private set; }
 
     public event EventHandler OnInteractAction;
+    public event EventHandler OnContinueAction;
 
     private PlayerInputActions playerInputActions;
 
@@ -24,6 +25,7 @@ public class GameInputManager : MonoBehaviour {
     // Create Event action
     private void Start() {
         playerInputActions.Player.Interaction.performed += ctx => OnInteractAction?.Invoke(this, EventArgs.Empty);
+        playerInputActions.UI.Continue.performed += ctx => OnContinueAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnEnable() {
@@ -37,5 +39,10 @@ public class GameInputManager : MonoBehaviour {
 
     public Vector2 GetPlayerMovementNormalized() {
         return playerInputActions.Player.Movement.ReadValue<Vector2>().normalized;
+    }
+
+    private void OnDestroy() {
+        playerInputActions.Player.Interaction.performed -= ctx => OnInteractAction?.Invoke(this, EventArgs.Empty);
+        playerInputActions.UI.Continue.performed -= ctx => OnContinueAction?.Invoke(this, EventArgs.Empty);
     }
 }
